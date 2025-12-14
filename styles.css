@@ -1,0 +1,294 @@
+/* Context Crafter Plugin Styles */
+
+/* Selection Modal */
+.context-crafter-selection-modal {
+  min-width: 600px;
+  max-width: 900px;
+  width: 85vw;
+}
+
+.context-crafter-selection-modal .modal-content {
+  padding: 20px;
+}
+
+.context-crafter-stats {
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px;
+  background-color: var(--background-secondary);
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-size: 0.95em;
+  font-weight: 500;
+}
+
+/* Search/Filter Bar */
+.context-crafter-search {
+  margin-bottom: 12px;
+}
+
+.context-crafter-search-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1em;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+}
+
+.context-crafter-search-input:focus {
+  outline: none;
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 2px var(--interactive-accent-hover);
+}
+
+.context-crafter-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.context-crafter-empty {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.context-crafter-saved-indicator {
+  color: var(--interactive-accent);
+  font-weight: 500;
+}
+
+.context-crafter-save-btn,
+.context-crafter-clear-btn {
+  font-size: 0.85em;
+}
+
+.context-crafter-bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.context-crafter-bulk-actions button {
+  padding: 4px 10px;
+  font-size: 0.85em;
+}
+
+.context-crafter-separator {
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+.context-crafter-depth-btn {
+  min-width: 28px;
+}
+
+/* Note List */
+.context-crafter-note-list {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.context-crafter-depth-header {
+  padding: 8px 12px;
+  background-color: var(--background-secondary);
+  border-bottom: 1px solid var(--background-modifier-border);
+  font-weight: 600;
+  font-size: 0.9em;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.context-crafter-depth-header .context-crafter-count {
+  color: var(--text-muted);
+  font-weight: normal;
+}
+
+.context-crafter-note-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  transition: background-color 0.1s ease;
+}
+
+.context-crafter-note-item:last-child {
+  border-bottom: none;
+}
+
+.context-crafter-note-item:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+.context-crafter-note-item.is-selected {
+  background-color: var(--background-modifier-active-hover);
+}
+
+.context-crafter-note-item.is-root {
+  background-color: var(--background-secondary-alt);
+}
+
+.context-crafter-note-item input[type="checkbox"] {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.context-crafter-note-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.context-crafter-title-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.context-crafter-note-name {
+  font-weight: 500;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.context-crafter-type {
+  font-size: 0.75em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: var(--background-modifier-border);
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.context-crafter-type-root {
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.context-crafter-type-forward-link {
+  background-color: var(--color-blue);
+  color: white;
+}
+
+.context-crafter-type-backlink {
+  background-color: var(--color-green);
+  color: white;
+}
+
+.context-crafter-meta-line {
+  display: flex;
+  gap: 12px;
+  font-size: 0.8em;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.context-crafter-path {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.context-crafter-words {
+  flex-shrink: 0;
+}
+
+.context-crafter-tags {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Button Container */
+.context-crafter-button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.context-crafter-button-container button {
+  padding: 10px 20px;
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+/* Legacy styles for other modals */
+.context-crafter-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.context-crafter-indicator {
+  font-size: 14px;
+  width: 20px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.suggestion-item.is-selected .context-crafter-indicator {
+  color: var(--interactive-accent);
+}
+
+.context-crafter-file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.context-crafter-filename {
+  font-weight: 500;
+}
+
+.context-crafter-filepath {
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
+
+.suggestion-item.is-selected {
+  background-color: var(--background-modifier-active-hover);
+}
+
+/* Preview Modal */
+.context-crafter-preview-modal {
+  max-width: 800px;
+  width: 90vw;
+}
+
+.context-crafter-preview-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.context-crafter-preview-content {
+  padding: 12px;
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 0.85em;
+  line-height: 1.5;
+  background-color: var(--background-primary);
+}
+
+.context-crafter-truncated {
+  padding: 8px 12px;
+  background-color: var(--background-secondary);
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 0.85em;
+  border-top: 1px solid var(--background-modifier-border);
+}

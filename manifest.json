@@ -1,0 +1,9 @@
+{
+  "id": "context-crafter",
+  "name": "Context Crafter",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Gather note context with metadata for AI/LLM prompts. Supports linked notes, manual selection, and smart auto-detection.",
+  "author": "Terry",
+  "isDesktopOnly": false
+}

@@ -1,0 +1,19 @@
+# Build output
+main.js
+
+# Dependencies
+node_modules/
+
+# Plugin data (user-specific)
+data.json
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Hot reload marker
+.hotreload
