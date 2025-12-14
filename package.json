@@ -15,7 +15,7 @@
     "ai",
     "llm"
   ],
-  "author": "Terry",
+  "author": "Terry Li",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^18.19.0",
