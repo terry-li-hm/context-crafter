@@ -1,0 +1,3 @@
+# Context Crafter
+
+Context Crafter is an Obsidian plugin that helps you gather context from your notes for use with AI assistants. When you run it on a note, it collects all notes within three hops of links and backlinks, then presents them in an interactive list where you can deselect anything you don't want included. You can filter the list by typing to search for specific notes, and save your selection for future use so you don't have to deselect the same notes every time. Once you're happy with your selection, it copies everything to your clipboard as formatted markdown, complete with metadata like tags, dates, and frontmatter, ready to paste into your favorite AI tool.
