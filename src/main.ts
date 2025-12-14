@@ -65,6 +65,11 @@ export default class ContextCrafterPlugin extends Plugin {
         return;
       }
 
+      // Warn if collection was truncated
+      if (result.truncated) {
+        new Notice("Warning: Collection truncated at 500 notes. Some linked notes may be missing.", 5000);
+      }
+
       // Get saved exclusions for this note
       const currentNotePath = activeFile.path;
       const savedExclusions = this.settings.savedExclusions[currentNotePath] || [];
@@ -75,13 +80,14 @@ export default class ContextCrafterPlugin extends Plugin {
         const selectedNotes = result.notes.filter(
           (note) => note.depth === 0 || !savedExclusions.includes(note.file.path)
         );
-        await this.formatAndCopy(selectedNotes);
+        await this.formatAndCopy(selectedNotes, result.truncated);
       } else {
         // Show selection modal
         new SelectionModal(this.app, {
           notes: result.notes,
           excludedPaths: savedExclusions,
           hasSavedSelection,
+          truncated: result.truncated,
           onSubmit: async (selectionResult) => {
             if (selectionResult.cancelled) {
               return;
@@ -125,7 +131,7 @@ export default class ContextCrafterPlugin extends Plugin {
     new Notice("Saved selection cleared");
   }
 
-  private async formatAndCopy(notes: NoteContext[]): Promise<void> {
+  private async formatAndCopy(notes: NoteContext[], truncated = false): Promise<void> {
     // Rebuild stats for selected notes
     const stats = {
       totalNotes: notes.length,
@@ -138,7 +144,7 @@ export default class ContextCrafterPlugin extends Plugin {
       }, {} as Record<number, number>),
     };
 
-    const formatted = this.formatter.format({ notes, stats }, this.settings);
+    const formatted = this.formatter.format({ notes, stats, truncated }, this.settings);
     const success = await copyToClipboard(formatted);
 
     if (success) {

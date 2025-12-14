@@ -46,6 +46,7 @@ export interface NoteContext {
 export interface CollectionResult {
   notes: NoteContext[];
   stats: CollectionStats;
+  truncated: boolean;
 }
 
 export interface CollectionStats {

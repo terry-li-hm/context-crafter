@@ -47,11 +47,13 @@ export class LinkCollector {
 
     // Start with current note
     queue.push({ file: activeFile, depth: 0, type: "root" });
+    let truncated = false;
 
     while (queue.length > 0) {
       // Safety cap to prevent runaway collection in dense vaults
       if (results.length >= MAX_NODES) {
         console.warn(`Context Crafter: Hit max node limit (${MAX_NODES}), stopping collection`);
+        truncated = true;
         break;
       }
 
@@ -107,7 +109,7 @@ export class LinkCollector {
       }
     }
 
-    return this.buildResult(results);
+    return this.buildResult(results, truncated);
   }
 
   private async buildNoteContext(
@@ -126,14 +128,15 @@ export class LinkCollector {
 
   private isExcluded(file: TFile): boolean {
     const fileFolders = file.path.split("/").slice(0, -1);
-    return this.settings.excludeFolders.some((folder) =>
-      fileFolders.includes(folder)
-    );
+    return this.settings.excludeFolders.some((folder) => {
+      const trimmed = folder.trim();
+      return trimmed && fileFolders.includes(trimmed);
+    });
   }
 
-  private buildResult(notes: NoteContext[]): CollectionResult {
+  private buildResult(notes: NoteContext[], truncated: boolean): CollectionResult {
     const stats = this.calculateStats(notes);
-    return { notes, stats };
+    return { notes, stats, truncated };
   }
 
   private calculateStats(notes: NoteContext[]): CollectionStats {

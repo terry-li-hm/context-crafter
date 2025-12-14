@@ -59,6 +59,11 @@
   font-weight: 500;
 }
 
+.context-crafter-truncated-indicator {
+  color: var(--text-warning);
+  font-weight: 500;
+}
+
 .context-crafter-save-btn,
 .context-crafter-clear-btn {
   font-size: 0.85em;

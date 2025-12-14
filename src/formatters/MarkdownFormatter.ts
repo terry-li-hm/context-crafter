@@ -21,10 +21,11 @@ export class MarkdownFormatter {
   }
 
   private formatHeader(result: CollectionResult): string {
+    const truncatedNote = result.truncated ? " (truncated at 500)" : "";
     const lines = [
       "# Context Bundle",
       "",
-      `**Notes**: ${result.stats.totalNotes} | **Est. Tokens**: ~${result.stats.totalTokensEstimate}`,
+      `**Notes**: ${result.stats.totalNotes}${truncatedNote} | **Est. Tokens**: ~${result.stats.totalTokensEstimate}`,
       `**Generated**: ${new Date().toISOString().split("T")[0]}`,
     ];
     return lines.join("\n");

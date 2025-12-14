@@ -12,6 +12,7 @@ export interface SelectionModalOptions {
   notes: NoteContext[];
   excludedPaths: string[];
   hasSavedSelection: boolean;
+  truncated: boolean;
   onSubmit: (result: SelectionResult) => void;
   onSave: (excludedPaths: string[]) => void;
   onClearSaved: () => void;
@@ -361,6 +362,11 @@ export class SelectionModal extends Modal {
     this.statsEl.createSpan({ text: `${selected}/${total} notes selected` });
     this.statsEl.createSpan({ text: " | " });
     this.statsEl.createSpan({ text: `~${estimatedTokens.toLocaleString()} tokens` });
+
+    if (this.options.truncated) {
+      this.statsEl.createSpan({ text: " | " });
+      this.statsEl.createSpan({ text: "Truncated at 500", cls: "context-crafter-truncated-indicator" });
+    }
 
     if (this.options.hasSavedSelection) {
       this.statsEl.createSpan({ text: " | " });
