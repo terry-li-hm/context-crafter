@@ -119,37 +119,6 @@ export class ContextCrafterSettingsTab extends PluginSettingTab {
           })
       );
 
-    // === Smart Mode Settings ===
-    containerEl.createEl("h3", { text: "Smart Selection" });
-
-    new Setting(containerEl)
-      .setName("Similarity threshold")
-      .setDesc("Minimum relevance score for smart mode (0.0-1.0)")
-      .addSlider((slider) =>
-        slider
-          .setLimits(0.1, 1, 0.1)
-          .setValue(this.plugin.settings.similarityThreshold)
-          .setDynamicTooltip()
-          .onChange(async (value) => {
-            this.plugin.settings.similarityThreshold = value;
-            await this.plugin.saveSettings();
-          })
-      );
-
-    new Setting(containerEl)
-      .setName("Max smart results")
-      .setDesc("Maximum notes to include in smart mode")
-      .addSlider((slider) =>
-        slider
-          .setLimits(5, 20, 1)
-          .setValue(this.plugin.settings.maxSmartResults)
-          .setDynamicTooltip()
-          .onChange(async (value) => {
-            this.plugin.settings.maxSmartResults = value;
-            await this.plugin.saveSettings();
-          })
-      );
-
     // === Output Settings ===
     containerEl.createEl("h3", { text: "Output" });
 

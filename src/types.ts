@@ -13,10 +13,6 @@ export interface ContextCrafterSettings {
   includeModifiedDate: boolean;
   includeLinkContext: boolean;
 
-  // Smart mode settings
-  similarityThreshold: number;
-  maxSmartResults: number;
-
   // Output settings
   includeFilePaths: boolean;
   excludeFolders: string[];
@@ -37,9 +33,7 @@ export interface NoteMetadata {
 export type RelationshipType =
   | "root"
   | "forward-link"
-  | "backlink"
-  | "manual"
-  | "smart";
+  | "backlink";
 
 export interface NoteContext {
   file: TFile;

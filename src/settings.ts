@@ -13,10 +13,6 @@ export const DEFAULT_SETTINGS: ContextCrafterSettings = {
   includeModifiedDate: true,
   includeLinkContext: false,
 
-  // Smart mode settings
-  similarityThreshold: 0.5,
-  maxSmartResults: 10,
-
   // Output settings
   includeFilePaths: true,
   excludeFolders: [],

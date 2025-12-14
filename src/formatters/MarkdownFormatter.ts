@@ -101,8 +101,6 @@ export class MarkdownFormatter {
       root: "(Current)",
       "forward-link": "(Linked)",
       backlink: "(Backlink)",
-      manual: "(Selected)",
-      smart: "(Related)",
     };
     return indicators[type] || "";
   }

@@ -86,6 +86,27 @@
   min-width: 28px;
 }
 
+.context-crafter-sort-select {
+  padding: 4px 8px;
+  font-size: 0.85em;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 4px;
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+}
+
+.context-crafter-clickable {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+
+.context-crafter-clickable:hover {
+  color: var(--interactive-accent);
+  text-decoration-style: solid;
+}
+
 /* Note List */
 .context-crafter-note-list {
   max-height: 400px;

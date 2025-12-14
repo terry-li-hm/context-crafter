@@ -1,5 +1,7 @@
-import { App, Modal } from "obsidian";
+import { App, Modal, TFile } from "obsidian";
 import { NoteContext, RelationshipType } from "../types";
+
+type SortOption = "name" | "size" | "modified";
 
 export interface SelectionResult {
   selectedNotes: NoteContext[];
@@ -25,6 +27,8 @@ export class SelectionModal extends Modal {
   private filterInput: HTMLInputElement;
   private saveBtn: HTMLButtonElement;
   private clearBtn: HTMLButtonElement;
+  private sortOption: SortOption = "name";
+  private keydownHandler: (e: KeyboardEvent) => void;
 
   constructor(app: App, options: SelectionModalOptions) {
     super(app);
@@ -48,6 +52,15 @@ export class SelectionModal extends Modal {
   onOpen(): void {
     const { contentEl, modalEl } = this;
     modalEl.addClass("context-crafter-selection-modal");
+
+    // Keyboard shortcuts
+    this.keydownHandler = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        this.submitSelection();
+      }
+    };
+    document.addEventListener("keydown", this.keydownHandler);
 
     // Header
     contentEl.createEl("h2", { text: "Select Notes for Context" });
@@ -108,6 +121,25 @@ export class SelectionModal extends Modal {
       this.clearBtn.addEventListener("click", () => this.clearSavedSelection());
     }
 
+    // Sort options
+    actionsEl.createSpan({ text: " | Sort: ", cls: "context-crafter-separator" });
+    const sortSelect = actionsEl.createEl("select", { cls: "context-crafter-sort-select" });
+    const sortOptions: { value: SortOption; label: string }[] = [
+      { value: "name", label: "Name" },
+      { value: "size", label: "Size" },
+      { value: "modified", label: "Modified" },
+    ];
+    for (const opt of sortOptions) {
+      const optionEl = sortSelect.createEl("option", { value: opt.value, text: opt.label });
+      if (opt.value === this.sortOption) {
+        optionEl.selected = true;
+      }
+    }
+    sortSelect.addEventListener("change", () => {
+      this.sortOption = sortSelect.value as SortOption;
+      this.renderNoteList();
+    });
+
     // Notes list
     this.listContainer = contentEl.createDiv({ cls: "context-crafter-note-list" });
     this.renderNoteList();
@@ -120,14 +152,9 @@ export class SelectionModal extends Modal {
     const copyButton = buttonContainer.createEl("button", {
       text: "Copy to Clipboard",
       cls: "mod-cta",
+      title: "Cmd/Ctrl+Enter",
     });
-    copyButton.addEventListener("click", () => {
-      this.options.onSubmit({
-        selectedNotes: Array.from(this.selectedNotes),
-        cancelled: false,
-      });
-      this.close();
-    });
+    copyButton.addEventListener("click", () => this.submitSelection());
 
     const cancelButton = buttonContainer.createEl("button", { text: "Cancel" });
     cancelButton.addEventListener("click", () => {
@@ -137,6 +164,14 @@ export class SelectionModal extends Modal {
 
     // Focus search input
     this.filterInput.focus();
+  }
+
+  private submitSelection(): void {
+    this.options.onSubmit({
+      selectedNotes: Array.from(this.selectedNotes),
+      cancelled: false,
+    });
+    this.close();
   }
 
   private saveSelection(): void {
@@ -179,6 +214,21 @@ export class SelectionModal extends Modal {
     });
   }
 
+  private sortNotes(notes: NoteContext[]): NoteContext[] {
+    return [...notes].sort((a, b) => {
+      switch (this.sortOption) {
+        case "name":
+          return a.file.basename.localeCompare(b.file.basename);
+        case "size":
+          return b.content.length - a.content.length; // Largest first
+        case "modified":
+          return b.metadata.modifiedDate - a.metadata.modifiedDate; // Most recent first
+        default:
+          return 0;
+      }
+    });
+  }
+
   private renderNoteList(): void {
     this.listContainer.empty();
 
@@ -201,7 +251,7 @@ export class SelectionModal extends Modal {
     // Render each depth group
     const sortedDepths = [...byDepth.keys()].sort();
     for (const depth of sortedDepths) {
-      const group = byDepth.get(depth)!;
+      const group = this.sortNotes(byDepth.get(depth)!);
 
       // Depth header
       const header = this.listContainer.createDiv({ cls: "context-crafter-depth-header" });
@@ -246,9 +296,14 @@ export class SelectionModal extends Modal {
 
     // First line: name and type
     const titleLine = info.createDiv({ cls: "context-crafter-title-line" });
-    titleLine.createSpan({
+    const nameEl = titleLine.createSpan({
       text: note.file.basename,
-      cls: "context-crafter-note-name"
+      cls: "context-crafter-note-name context-crafter-clickable",
+      title: "Click to preview",
+    });
+    nameEl.addEventListener("click", (e) => {
+      e.stopPropagation();
+      this.previewNote(note.file);
     });
     titleLine.createSpan({
       text: this.getTypeLabel(note.relationshipType),
@@ -281,14 +336,18 @@ export class SelectionModal extends Modal {
       root: "current",
       "forward-link": "linked",
       backlink: "backlink",
-      manual: "selected",
-      smart: "related",
     };
     return labels[type];
   }
 
   private estimateWords(content: string): number {
     return content.split(/\s+/).filter(w => w.length > 0).length;
+  }
+
+  private previewNote(file: TFile): void {
+    // Open in a new leaf without closing the modal
+    const leaf = this.app.workspace.getLeaf("tab");
+    leaf.openFile(file);
   }
 
   private updateStats(): void {
@@ -342,6 +401,7 @@ export class SelectionModal extends Modal {
   }
 
   onClose(): void {
+    document.removeEventListener("keydown", this.keydownHandler);
     this.contentEl.empty();
   }
 }

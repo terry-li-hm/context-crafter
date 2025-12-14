@@ -152,6 +152,8 @@ export default class ContextCrafterPlugin extends Plugin {
 
   async loadSettings(): Promise<void> {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    // Clamp linkDepth to safe range (1-3) in case of manual edits to data.json
+    this.settings.linkDepth = Math.min(Math.max(1, this.settings.linkDepth), 3);
   }
 
   async saveSettings(): Promise<void> {
