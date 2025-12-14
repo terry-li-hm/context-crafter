@@ -318,3 +318,115 @@
   font-size: 0.85em;
   border-top: 1px solid var(--background-modifier-border);
 }
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 600px) {
+  /* Full-width modal on mobile */
+  .context-crafter-selection-modal {
+    min-width: unset;
+    max-width: unset;
+    width: 95vw;
+  }
+
+  .context-crafter-selection-modal .modal-content {
+    padding: 12px;
+  }
+
+  /* Stats bar - wrap and larger text */
+  .context-crafter-stats {
+    flex-wrap: wrap;
+    font-size: 0.9em;
+    padding: 12px;
+  }
+
+  /* Larger search input for touch */
+  .context-crafter-search-input {
+    padding: 14px 16px;
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+
+  /* Stack bulk actions vertically */
+  .context-crafter-bulk-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .context-crafter-bulk-actions button {
+    padding: 12px 16px;
+    font-size: 1em;
+    min-height: 44px; /* Apple HIG touch target */
+  }
+
+  .context-crafter-separator {
+    display: none;
+  }
+
+  /* Group depth buttons in a row */
+  .context-crafter-depth-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .context-crafter-sort-select {
+    padding: 12px 16px;
+    font-size: 16px;
+    min-height: 44px;
+    width: 100%;
+  }
+
+  .context-crafter-save-btn,
+  .context-crafter-clear-btn {
+    font-size: 1em;
+    width: 100%;
+  }
+
+  /* Taller note list on mobile */
+  .context-crafter-note-list {
+    max-height: 50vh;
+  }
+
+  /* Larger touch targets for note items */
+  .context-crafter-note-item {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .context-crafter-note-item input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    margin-top: 0;
+  }
+
+  .context-crafter-note-name {
+    font-size: 1.05em;
+  }
+
+  .context-crafter-type {
+    font-size: 0.8em;
+    padding: 4px 8px;
+  }
+
+  .context-crafter-meta-line {
+    font-size: 0.85em;
+    gap: 8px;
+  }
+
+  .context-crafter-depth-header {
+    padding: 12px 14px;
+    font-size: 1em;
+  }
+
+  /* Full-width action buttons */
+  .context-crafter-button-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .context-crafter-button-container button {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 1.05em;
+    min-height: 48px;
+  }
+}
