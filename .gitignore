@@ -17,3 +17,6 @@ Thumbs.db
 
 # Hot reload marker
 .hotreload
+
+# Serena config
+.serena/

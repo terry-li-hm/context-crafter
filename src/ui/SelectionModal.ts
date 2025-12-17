@@ -3,6 +3,12 @@ import { NoteContext, RelationshipType } from "../types";
 
 type SortOption = "name" | "size" | "modified";
 
+interface NoteItem {
+  element: HTMLElement;
+  note: NoteContext;
+  checkbox: HTMLInputElement;
+}
+
 export interface SelectionResult {
   selectedNotes: NoteContext[];
   cancelled: boolean;
@@ -30,6 +36,8 @@ export class SelectionModal extends Modal {
   private clearBtn: HTMLButtonElement;
   private sortOption: SortOption = "name";
   private keydownHandler: (e: KeyboardEvent) => void;
+  private focusedIndex: number = -1;
+  private noteItems: NoteItem[] = [];
 
   constructor(app: App, options: SelectionModalOptions) {
     super(app);
@@ -59,6 +67,21 @@ export class SelectionModal extends Modal {
       if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         this.submitSelection();
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (document.activeElement === this.filterInput) {
+          this.filterInput.blur();
+        }
+        this.moveFocus(1);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (document.activeElement === this.filterInput) {
+          this.filterInput.blur();
+        }
+        this.moveFocus(-1);
+      } else if ((e.key === " " || e.key === "Enter") && this.focusedIndex >= 0 && document.activeElement !== this.filterInput) {
+        e.preventDefault();
+        this.toggleFocusedItem();
       }
     };
     document.addEventListener("keydown", this.keydownHandler);
@@ -232,6 +255,8 @@ export class SelectionModal extends Modal {
 
   private renderNoteList(): void {
     this.listContainer.empty();
+    this.noteItems = [];
+    this.focusedIndex = -1;
 
     const filteredNotes = this.getFilteredNotes();
 
@@ -291,6 +316,9 @@ export class SelectionModal extends Modal {
       item.toggleClass("is-selected", checkbox.checked);
       this.updateStats();
     });
+
+    // Track item for keyboard navigation
+    this.noteItems.push({ element: item, note, checkbox });
 
     // Note info
     const info = item.createDiv({ cls: "context-crafter-note-info" });
@@ -403,6 +431,45 @@ export class SelectionModal extends Modal {
       }
     }
     this.renderNoteList();
+    this.updateStats();
+  }
+
+  private moveFocus(direction: number): void {
+    if (this.noteItems.length === 0) return;
+
+    // Remove focus from current item
+    if (this.focusedIndex >= 0 && this.focusedIndex < this.noteItems.length) {
+      this.noteItems[this.focusedIndex].element.removeClass("is-focused");
+    }
+
+    // Calculate new index
+    if (this.focusedIndex === -1) {
+      this.focusedIndex = direction > 0 ? 0 : this.noteItems.length - 1;
+    } else {
+      this.focusedIndex += direction;
+      if (this.focusedIndex < 0) this.focusedIndex = this.noteItems.length - 1;
+      if (this.focusedIndex >= this.noteItems.length) this.focusedIndex = 0;
+    }
+
+    // Apply focus to new item
+    const focusedItem = this.noteItems[this.focusedIndex];
+    focusedItem.element.addClass("is-focused");
+    focusedItem.element.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }
+
+  private toggleFocusedItem(): void {
+    if (this.focusedIndex < 0 || this.focusedIndex >= this.noteItems.length) return;
+
+    const { note, checkbox, element } = this.noteItems[this.focusedIndex];
+    if (note.depth === 0) return; // Can't toggle root note
+
+    checkbox.checked = !checkbox.checked;
+    if (checkbox.checked) {
+      this.selectedNotes.add(note);
+    } else {
+      this.selectedNotes.delete(note);
+    }
+    element.toggleClass("is-selected", checkbox.checked);
     this.updateStats();
   }
 

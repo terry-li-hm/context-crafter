@@ -114,7 +114,7 @@
 
 /* Note List */
 .context-crafter-note-list {
-  max-height: 400px;
+  max-height: 60vh;
   overflow-y: auto;
   border: 1px solid var(--background-modifier-border);
   border-radius: 6px;
@@ -156,6 +156,11 @@
 
 .context-crafter-note-item.is-selected {
   background-color: var(--background-modifier-active-hover);
+}
+
+.context-crafter-note-item.is-focused {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: -2px;
 }
 
 .context-crafter-note-item.is-root {
