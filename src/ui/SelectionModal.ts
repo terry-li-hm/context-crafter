@@ -105,8 +105,23 @@ export class SelectionModal extends Modal {
       this.renderNoteList();
     });
 
-    // Bulk actions
-    const actionsEl = contentEl.createDiv({ cls: "context-crafter-bulk-actions" });
+    // Bulk actions wrapper (collapsible on mobile)
+    const actionsWrapper = contentEl.createDiv({ cls: "context-crafter-actions-wrapper" });
+
+    // Toggle button (visible only on mobile via CSS)
+    const toggleBtn = actionsWrapper.createEl("button", {
+      text: "Options ▼",
+      cls: "context-crafter-actions-toggle",
+    });
+
+    // Collapsible content (starts collapsed on mobile)
+    const actionsEl = actionsWrapper.createDiv({ cls: "context-crafter-bulk-actions is-collapsed" });
+
+    toggleBtn.addEventListener("click", () => {
+      const isCollapsed = actionsEl.hasClass("is-collapsed");
+      actionsEl.toggleClass("is-collapsed", !isCollapsed);
+      toggleBtn.setText(isCollapsed ? "Options ▼" : "Options ▲");
+    });
 
     const selectAllBtn = actionsEl.createEl("button", { text: "Select All" });
     selectAllBtn.addEventListener("click", () => this.selectAll());
