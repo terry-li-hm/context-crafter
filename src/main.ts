@@ -21,11 +21,11 @@ export default class ContextCrafterPlugin extends Plugin {
     // Add settings tab
     this.addSettingTab(new ContextCrafterSettingsTab(this.app, this));
 
-    console.log("Context Crafter loaded");
+    console.debug("Context Crafter loaded");
   }
 
   onunload(): void {
-    console.log("Context Crafter unloaded");
+    console.debug("Context Crafter unloaded");
   }
 
   private registerCommands(): void {
@@ -88,7 +88,7 @@ export default class ContextCrafterPlugin extends Plugin {
           excludedPaths: savedExclusions,
           hasSavedSelection,
           truncated: result.truncated,
-          onSubmit: async (selectionResult) => {
+          onSubmit: (selectionResult) => {
             if (selectionResult.cancelled) {
               return;
             }
@@ -96,13 +96,13 @@ export default class ContextCrafterPlugin extends Plugin {
               new Notice("No notes selected");
               return;
             }
-            await this.formatAndCopy(selectionResult.selectedNotes);
+            void this.formatAndCopy(selectionResult.selectedNotes);
           },
-          onSave: async (excludedPaths) => {
-            await this.saveExclusions(currentNotePath, excludedPaths);
+          onSave: (excludedPaths) => {
+            void this.saveExclusions(currentNotePath, excludedPaths);
           },
-          onClearSaved: async () => {
-            await this.clearExclusions(currentNotePath);
+          onClearSaved: () => {
+            void this.clearExclusions(currentNotePath);
           },
         }).open();
       }

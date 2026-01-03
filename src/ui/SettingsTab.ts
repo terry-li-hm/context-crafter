@@ -13,10 +13,10 @@ export class ContextCrafterSettingsTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Context Crafter Settings" });
+    new Setting(containerEl).setName("Context Crafter settings").setHeading();
 
     // === Collection Settings ===
-    containerEl.createEl("h3", { text: "Collection" });
+    new Setting(containerEl).setName("Collection").setHeading();
 
     new Setting(containerEl)
       .setName("Link depth")
@@ -57,7 +57,7 @@ export class ContextCrafterSettingsTab extends PluginSettingTab {
       );
 
     // === Metadata Settings ===
-    containerEl.createEl("h3", { text: "Metadata" });
+    new Setting(containerEl).setName("Metadata").setHeading();
 
     new Setting(containerEl)
       .setName("Include frontmatter")
@@ -120,7 +120,7 @@ export class ContextCrafterSettingsTab extends PluginSettingTab {
       );
 
     // === Output Settings ===
-    containerEl.createEl("h3", { text: "Output" });
+    new Setting(containerEl).setName("Output").setHeading();
 
     new Setting(containerEl)
       .setName("Include file paths")

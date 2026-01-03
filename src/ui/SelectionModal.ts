@@ -87,7 +87,7 @@ export class SelectionModal extends Modal {
     document.addEventListener("keydown", this.keydownHandler);
 
     // Header
-    contentEl.createEl("h2", { text: "Select Notes for Context" });
+    contentEl.createEl("h2", { text: "Select notes for context" });
 
     // Stats bar
     this.statsEl = contentEl.createDiv({ cls: "context-crafter-stats" });
@@ -123,10 +123,10 @@ export class SelectionModal extends Modal {
       toggleBtn.setText(isCollapsed ? "Options ▼" : "Options ▲");
     });
 
-    const selectAllBtn = actionsEl.createEl("button", { text: "Select All" });
+    const selectAllBtn = actionsEl.createEl("button", { text: "Select all" });
     selectAllBtn.addEventListener("click", () => this.selectAll());
 
-    const deselectAllBtn = actionsEl.createEl("button", { text: "Deselect All" });
+    const deselectAllBtn = actionsEl.createEl("button", { text: "Deselect all" });
     deselectAllBtn.addEventListener("click", () => this.deselectAll());
 
     // Depth filter buttons
@@ -147,14 +147,14 @@ export class SelectionModal extends Modal {
     actionsEl.createSpan({ text: " | ", cls: "context-crafter-separator" });
 
     this.saveBtn = actionsEl.createEl("button", {
-      text: "Save Selection",
+      text: "Save selection",
       cls: "context-crafter-save-btn",
     });
     this.saveBtn.addEventListener("click", () => this.saveSelection());
 
     if (this.options.hasSavedSelection) {
       this.clearBtn = actionsEl.createEl("button", {
-        text: "Clear Saved",
+        text: "Clear saved",
         cls: "context-crafter-clear-btn",
       });
       this.clearBtn.addEventListener("click", () => this.clearSavedSelection());
@@ -189,7 +189,7 @@ export class SelectionModal extends Modal {
     });
 
     const copyButton = buttonContainer.createEl("button", {
-      text: "Copy to Clipboard",
+      text: "Copy to clipboard",
       cls: "mod-cta",
       title: "Cmd/Ctrl+Enter",
     });
@@ -221,7 +221,7 @@ export class SelectionModal extends Modal {
 
     this.options.onSave(excludedPaths);
     this.saveBtn.setText("Saved ✓");
-    setTimeout(() => this.saveBtn.setText("Save Selection"), 1500);
+    setTimeout(() => this.saveBtn.setText("Save selection"), 1500);
   }
 
   private clearSavedSelection(): void {
@@ -391,7 +391,7 @@ export class SelectionModal extends Modal {
   private previewNote(file: TFile): void {
     // Open in a new leaf without closing the modal
     const leaf = this.app.workspace.getLeaf("tab");
-    leaf.openFile(file);
+    void leaf.openFile(file);
   }
 
   private updateStats(): void {
